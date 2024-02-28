@@ -52,7 +52,7 @@ pair<int, int> expected_location(int element) {
 }
 
 // get the location of the hole
-pair<int, int> get_hole(state current) {
+pair<int, int> get_hole(state &current) {
     for (int i = 0 ; i < NROW; ++i) {
         for (int j = 0 ; j < NCOL; ++j) {
             if (get_element(current, i, j) == HOLE) return make_pair(i, j);
@@ -62,7 +62,7 @@ pair<int, int> get_hole(state current) {
     return make_pair(-1, -1);
 }
 // get all possible next states
-vector<state> next_states(state current) {
+vector<state> next_states(state &current) {
     int i;
     vector<state> ret;
     auto hole = get_hole(current);
@@ -81,7 +81,7 @@ vector<state> next_states(state current) {
 
 // compute the hcost of a position
 
-int hcost(state current) {
+int hcost(state &current) {
     int i, j, cost = 0;
     for (i = 0; i < NROW; ++i) {
         for (j = 0 ; j < NCOL; ++j) {
