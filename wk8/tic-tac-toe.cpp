@@ -11,6 +11,7 @@ const int INF = 100000000;
 const int Three = 1000000;
 const int Two = 1000;
 const int One = 100;
+const int Draw = 0;
 
 struct board {
     int cell[3][3];
@@ -31,6 +32,10 @@ struct board {
     }
 
     int eval() {
+        if (xwin()) return Three;
+        if (owin()) return -Three;
+        if (full()) return Draw;
+
         return linescore(cell[0][0], cell[0][1], cell[0][2]) +
                linescore(cell[1][0], cell[1][1], cell[1][2]) +
                linescore(cell[2][0], cell[2][1], cell[2][2]) + 
