@@ -142,6 +142,30 @@ std::pair<int, int> alphabeta(board &state, int alpha, int beta, int turn, int d
     }
 }
 
+int input_move(board &state, char x) {
+    if (state.terminal()) return -1;
+    int move = -1;
+    while (move == -1) {
+        state.show();
+        printf("You are player %c, please input a move [1-9]: ", x);
+        scanf("%d", &move);
+        if (move < 1 || move > 9) {
+            printf("Invalid move, input must between 1 and 9!\n\n");
+            move = -1;
+            continue;
+        }
+
+        move--;
+        
+        if (state.cell[move/3][move%3] != EMPTY) {
+            printf("Invalid move, cell occupied!\n\n");
+            move = -1;
+        }
+    }
+
+    return move;
+}
+
 board state;
 
 int main(int argc, char *argv[]) {
@@ -151,15 +175,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }       
 
-    if (argv[1][0] == 'x') {
-        state.show();
-        printf("Please input a move [1-9]: ");
-        scanf("%d", &move);
-        if (move < 1 || move > 9) {
-            printf("Invalid move!\n");
-            return 0;
-        }
-        move--;
+    if (argv[1][0] == 'x' || argv[1][0] == 'X') {
+        move = input_move(state, argv[1][0]);
         state.cell[move/3][move%3] = X;
         turn = O;
     }
@@ -169,18 +186,7 @@ int main(int argc, char *argv[]) {
         state.cell[nxt.second / 3][nxt.second % 3] = turn;
         turn *= -1;
         if (state.terminal()) break;
-        state.show();
-        printf("Please input a move [1-9]: ");
-        scanf("%d", &move);
-        if (move < 1 || move > 9) {
-            printf("Invalid move!\n");
-            return 0;
-        }
-        move--;
-        if (state.cell[move/3][move%3] != EMPTY) {
-            printf("Invalid move, cell occupied!\n");
-            return 0;
-        }
+        move = input_move(state, argv[1][0]);
         state.cell[move/3][move%3] = turn;
         turn *= -1;
     }
