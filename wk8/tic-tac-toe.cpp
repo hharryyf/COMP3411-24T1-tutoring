@@ -1,15 +1,16 @@
 #include <bits/stdc++.h>
 
-#define X 1
-#define O -1
-#define EMPTY 0
+const int X = 1;
+const int O = -1;
+const int EMPTY = 0;
 
+// implements the heuristic function in the tutorial slide
 
-#define INVALID_MOVE -1
-#define INF 100000000
-#define Three 1000000
-#define Two 1000
-#define One 100
+const int INVALID_MOVE = -1;
+const int INF = 100000000;
+const int Three = 1000000;
+const int Two = 1000;
+const int One = 100;
 
 struct board {
     int cell[3][3];
@@ -64,6 +65,7 @@ struct board {
         return 0;
     }
 
+    // if X is winning
     bool xwin() {
         for (int i = 0 ; i < 3; ++i) {
             if (cell[i][0] == X && cell[i][1] == X && cell[i][2] == X) return true;
@@ -75,6 +77,7 @@ struct board {
         return false;
     }
 
+    // if O is winning
     bool owin() {
         for (int i = 0 ; i < 3; ++i) {
             if (cell[i][0] == O && cell[i][1] == O && cell[i][2] == O) return true;
@@ -86,6 +89,7 @@ struct board {
         return false;
     }
 
+    // if the board is full
     bool full() {
         for (int i = 0 ; i < 3; ++i) {
             for (int j = 0 ; j < 3; ++j) {
@@ -96,12 +100,14 @@ struct board {
         return true;
     }
 
+    // if the game state is terminal
     bool terminal() {
         return xwin() || owin() || full();
     }
 };
 
 // return the heuristic score and the move
+// a pair (heuristic score, best move)
 std::pair<int, int> alphabeta(board &state, int alpha, int beta, int turn, int depth) {
     if (state.terminal() || depth == 0) return std::make_pair(state.eval(), INVALID_MOVE);
     int move = INVALID_MOVE;
@@ -142,6 +148,7 @@ std::pair<int, int> alphabeta(board &state, int alpha, int beta, int turn, int d
     }
 }
 
+// human play a move on the board
 int input_move(board &state, char x) {
     if (state.terminal()) return -1;
     int move = -1;
